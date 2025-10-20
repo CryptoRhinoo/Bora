@@ -373,17 +373,17 @@ contract Bora {
         uint256 _matchId,
         uint256 _reputationIncrease
     ) external whenNotPaused {
-        Match storage match = matches[_matchId];
-        require(match.creator == msg.sender, "Not the match creator");
-        require(match.isActive, "Match not active");
-        require(!match.isCompleted, "Job already completed");
+        Match storage matchData = matches[_matchId];
+        require(matchData.creator == msg.sender, "Not the match creator");
+        require(matchData.isActive, "Match not active");
+        require(!matchData.isCompleted, "Job already completed");
         require(_reputationIncrease > 0 && _reputationIncrease <= 100, "Invalid reputation increase");
         
-        Developer storage dev = developers[match.developer];
-        Opportunity storage opp = opportunities[match.opportunityId];
+        Developer storage dev = developers[matchData.developer];
+        Opportunity storage opp = opportunities[matchData.opportunityId];
         
-        match.isCompleted = true;
-        match.isActive = false;
+        matchData.isCompleted = true;
+        matchData.isActive = false;
         
         // Process payment if escrow exists
         uint256 payment = 0;
@@ -397,7 +397,7 @@ contract Bora {
             opp.escrowBalance = 0;
             
             // Transfer to developer
-            payable(match.developer).transfer(developerPayment);
+            payable(matchData.developer).transfer(developerPayment);
             // Fee stays in contract for owner to withdraw
         }
         
@@ -407,14 +407,14 @@ contract Bora {
         
         emit JobCompleted(
             _matchId,
-            match.developer,
+            matchData.developer,
             payment,
             dev.reputation,
             block.timestamp
         );
         
         emit ReputationUpdated(
-            match.developer,
+            matchData.developer,
             dev.reputation,
             block.timestamp
         );

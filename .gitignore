@@ -1,11 +1,69 @@
-```
-.DS_Store
+# ==========================================
+# 🔒 SECURITY - PRIVATE KEYS & SECRETS
+# ==========================================
 .env
 .env.local
+.env.*.local
+*.env
+**/.env
+**/contracts/.env
+
+# Private keys
+*.key
+*.pem
+private_key*
+keystore/
+
+# Foundry keystores
+~/.foundry/keystores/
+
+# ==========================================
+# 💻 MacOS
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ==========================================
+# 📦 Dependencies
+# ==========================================
 node_modules/
-dist/
-build/
+lib/
 cache/
 artifacts/
-broadcast
 
+# ==========================================
+# 🔨 Build outputs
+# ==========================================
+dist/
+build/
+out/
+broadcast/
+cache_hardhat/
+typechain/
+typechain-types/
+
+# ==========================================
+# 📝 Logs
+# ==========================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# 🧪 Testing
+# ==========================================
+coverage/
+.coverage_artifacts/
+coverage.json
+
+# ==========================================
+# 🔧 IDE
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
