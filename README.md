@@ -1,425 +1,220 @@
 # 🚀 BORA - Web3 Talent Marketplace
 
-**Swipe. Match. Build. Your gateway to Web3 opportunities.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.24-blue)](https://soliditylang.org/)
+[![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://bora-app.vercel.app)
-[![Base Sepolia](https://img.shields.io/badge/Base-Sepolia-blue)](https://sepolia.basescan.org)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+BORA is a decentralized talent marketplace connecting Web3 developers with opportunities through a Tinder-like swipe interface. Built with Solidity and deployed on EVM-compatible chains.
 
-![BORA Banner](./assets/banner.png)
+## ✨ Features
 
-## 🎯 What is BORA?
+- 👨‍💻 **Developer Profiles**: Create and manage professional profiles with skills and reputation
+- 💼 **Job Opportunities**: Post and browse Web3 job opportunities
+- 👍 **Swipe Matching**: Tinder-style interface for matching developers with opportunities
+- 🤝 **Smart Matching**: Automated matching system when both parties show interest
+- 💰 **Escrow System**: Secure payment system with platform fees
+- ⭐ **Reputation System**: Track developer performance and completed jobs
+- 🔒 **Pausable**: Admin controls for emergency situations
 
-BORA revolutionizes how Web3 developers and projects connect. Inspired by the simplicity of dating apps, BORA makes finding blockchain opportunities as easy as swiping.
+## 🏗️ Architecture
 
-### The Problem
-- Web3 developers waste time searching across multiple platforms
-- Projects struggle to find qualified talent
-- There's no simple way to validate onchain reputation
+### Core Components
 
-### The Solution: BORA
-✅ **One app** - Everything in one place  
-✅ **Simple swipe** - Like or Pass in seconds  
-✅ **Automatic matches** - When there's mutual interest  
-✅ **Onchain reputation** - Your verifiable history on blockchain  
+- **Developer Profiles**: Store developer information, skills, and reputation
+- **Opportunities**: Job postings with budgets and required skills
+- **Swipe System**: Like/dislike mechanism for matching
+- **Match System**: Manage active matches and job completion
+- **Escrow**: Secure payment handling with platform fees (2.5% default)
 
----
-
-## 🏗️ Technical Architecture
-
-### Tech Stack
-
+### Smart Contract Structure
 ```
-Frontend:     React 18 + Vite + TailwindCSS
-Blockchain:   Base Sepolia (Ethereum L2)
-Smart Contract: Solidity 0.8.24
-Wallet:       Coinbase Smart Wallet SDK
-Deployment:   Vercel (Frontend) + Foundry (Contracts)
-```
-
-### Main Components
-
-```
-┌─────────────────────────────────────────┐
-│         Frontend (React)                │
-│  ┌──────────┐  ┌──────────┐            │
-│  │  Swipe   │  │ Profile  │            │
-│  │   UI     │  │ Manager  │            │
-│  └──────────┘  └──────────┘            │
-│  ┌──────────┐  ┌──────────┐            │
-│  │ Matches  │  │  Wallet  │            │
-│  │  List    │  │ Connect  │            │
-│  └──────────┘  └──────────┘            │
-└─────────┬───────────────────────────────┘
-          │
-          │ Web3 Calls
-          ▼
-┌─────────────────────────────────────────┐
-│     Smart Contract (Bora.sol)           │
-│                                         │
-│  • Developer Profiles                   │
-│  • Opportunities (Jobs)                 │
-│  • Swipe Logic (Like/Pass)              │
-│  • Match Detection                      │
-│  • Reputation System                    │
-│  • Event Emission                       │
-└─────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────┐
-│         Base Sepolia Network            │
-└─────────────────────────────────────────┘
+Bora.sol
+├── Developer Management
+│   ├── createDeveloperProfile()
+│   ├── updateDeveloperProfile()
+│   └── deactivateDeveloperProfile()
+├── Opportunity Management
+│   ├── createOpportunity()
+│   ├── depositEscrow()
+│   └── closeOpportunity()
+├── Matching System
+│   ├── swipeOpportunity()
+│   ├── acceptMatch()
+│   └── completeJob()
+└── Admin Functions
+    ├── setPlatformFee()
+    ├── togglePause()
+    └── withdrawPlatformFees()
 ```
 
----
-
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- Git
-- Metamask or any compatible wallet
+
+- [Foundry](https://book.getfoundry.sh/getting-started/installation)
+- [Git](https://git-scm.com/downloads)
 
 ### Installation
-
 ```bash
-# 1. Clone the repository
-git clone https://github.com/CryptoRhinoo/Bora.git
-cd Bora
+# Clone the repository
+git clone https://github.com/yourusername/bora.git
+cd bora
 
-# 2. Install dependencies
-npm install
+# Install dependencies
+forge install
 
-# 3. Configure environment variables
-cp .env.example .env
-# Edit .env with your credentials
-
-# 4. Start development
-npm run dev
-```
-
-### Smart Contract Setup
-
-```bash
-# Navigate to contracts folder
-cd contracts
-
-# Install Foundry (if you don't have it)
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-
-# Compile contracts
+# Build the project
 forge build
-
-# Deploy to Base Sepolia
-forge create --rpc-url https://sepolia.base.org \
-  --private-key $PRIVATE_KEY \
-  src/Bora.sol:Bora
 ```
 
----
-
-## 📁 Project Structure
-
-```
-bora/
-├── contracts/                 # Smart Contracts
-│   ├── src/
-│   │   └── Bora.sol          # Main contract
-│   ├── test/
-│   │   └── Bora.t.sol        # Tests
-│   ├── script/
-│   │   └── Deploy.s.sol      # Deployment script
-│   └── foundry.toml
-│
-├── frontend/                  # React Application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── SwipeCard.jsx
-│   │   │   ├── Profile.jsx
-│   │   │   ├── Matches.jsx
-│   │   │   └── WalletConnect.jsx
-│   │   ├── hooks/
-│   │   │   └── useContract.js
-│   │   ├── utils/
-│   │   │   └── web3.js
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── public/
-│   └── package.json
-│
-├── assets/                    # Images and resources
-├── README.md
-├── .env.example
-└── package.json
-```
-
----
-
-## 🎮 How to Use BORA
-
-### For Developers
-
-1. **Connect Your Wallet**
-   - Click "Connect Wallet"
-   - Accept connection with Coinbase Smart Wallet
-
-2. **Create Your Profile**
-   - Name
-   - Skills (Solidity, React, etc.)
-   - Short bio
-
-3. **Start Swiping**
-   - ← Swipe left = Not interested
-   - → Swipe right = Interested
-   - When there's a mutual match, you can contact!
-
-4. **Build Reputation**
-   - Complete jobs
-   - Receive feedback
-   - Earn onchain reputation
-
-### For Projects/Companies
-
-1. **Post Opportunities**
-   - Job title
-   - Description
-   - Required skills
-   - Budget in ETH
-
-2. **Review Candidates**
-   - See who swiped on your opportunity
-   - Accept to create match
-   - Contact directly
-
----
-
-## 🔗 Smart Contract - Main Functions
-
-### Write (State-Changing)
-
-```solidity
-// Create developer profile
-function createDeveloperProfile(
-    string memory name,
-    string[] memory skills
-) external
-
-// Create opportunity
-function createOpportunity(
-    string memory title,
-    string memory description,
-    string[] memory requiredSkills,
-    uint256 budget
-) external
-
-// Swipe on an opportunity
-function swipeOpportunity(
-    uint256 opportunityId,
-    bool isLike
-) external
-
-// Accept a match
-function acceptMatch(uint256 matchId) external
-
-// Complete job and increase reputation
-function completeJob(
-    uint256 matchId,
-    address developer
-) external
-```
-
-### Read (View Functions)
-
-```solidity
-// Get developer profile
-function getDeveloper(address user) external view returns (Developer memory)
-
-// Get opportunity
-function getOpportunity(uint256 id) external view returns (Opportunity memory)
-
-// List available opportunities
-function getAvailableOpportunities() external view returns (Opportunity[] memory)
-
-// View your matches
-function getUserMatches(address user) external view returns (Match[] memory)
-
-// Check reputation
-function getReputation(address user) external view returns (uint256)
-```
-
----
-
-## 🔐 Environment Variables
-
-```env
-# .env
-VITE_COINBASE_PROJECT_ID=your_coinbase_project_id
-VITE_CONTRACT_ADDRESS=0x...deployed_contract_address
-VITE_BASE_SEPOLIA_RPC=https://sepolia.base.org
-VITE_WALLET_CONNECT_PROJECT_ID=your_walletconnect_id
-```
-
-### Get Credentials
-
-1. **Coinbase Developer Platform**
-   - Visit: https://portal.cdp.coinbase.com
-   - Create project
-   - Copy Project ID
-
-2. **WalletConnect** (optional)
-   - Visit: https://cloud.walletconnect.com
-   - Create project
-   - Copy Project ID
-
----
-
-## 📋 Base Batches Checklist ✅
-
-- [x] App running on public URL
-- [x] Public GitHub repository
-- [x] Contract deployed on Base Sepolia
-- [x] Minimum 1 transaction on testnet
-- [x] Coinbase Smart Wallet integrated
-- [x] 1-minute demo video
-- [x] README with complete instructions
-- [x] Technical documentation
-
----
-
-## 🎥 Demo Video
-
-📹 **[Watch Demo (1 minute)](https://youtube.com/watch?v=...)**
-
-### Video Content
-- 0:00-0:15 → Problem presentation
-- 0:15-0:30 → Connect wallet and create profile
-- 0:30-0:45 → Swipe opportunities and match
-- 0:45-1:00 → Show onchain transaction
-
----
-
-## 🔗 Important Links
-
-- 🌐 **Live App**: [bora-app.vercel.app](https://bora-app.vercel.app)
-- 📜 **Smart Contract**: [BaseScan](https://sepolia.basescan.org/address/0x...)
-- 🎥 **Demo Video**: [YouTube](https://youtube.com/watch?v=...)
-- 🐙 **GitHub**: [CryptoRhinoo/Bora](https://github.com/CryptoRhinoo/Bora)
-- 📖 **Docs**: [Complete Documentation](./docs/ARCHITECTURE.md)
-
----
-
-## 🧪 Testing
-
+### Running Tests
 ```bash
-# Run smart contract tests
-cd contracts
+# Run all tests
 forge test
 
-# Tests with coverage
+# Run tests with verbosity
+forge test -vvv
+
+# Run specific test
+forge test --match-test test_CreateDeveloperProfile -vvv
+
+# Generate gas report
+forge test --gas-report
+
+# Generate coverage report
 forge coverage
-
-# Frontend tests
-cd frontend
-npm run test
 ```
 
----
+## 📝 Usage Examples
 
-## 🚢 Deployment
+### For Developers
+```solidity
+// 1. Create developer profile
+string[] memory skills = ["Solidity", "React", "Web3.js"];
+bora.createDeveloperProfile(
+    "Alice",
+    skills,
+    "Experienced blockchain developer"
+);
 
-### Frontend (Vercel)
+// 2. Browse and swipe opportunities
+bora.swipeOpportunity(opportunityId, true); // Like
+```
 
+### For Opportunity Creators
+```solidity
+// 1. Create opportunity
+string[] memory requiredSkills = ["Solidity", "Security"];
+bora.createOpportunity(
+    "Smart Contract Audit",
+    "Need experienced auditor",
+    requiredSkills,
+    1 ether
+);
+
+// 2. Deposit escrow
+bora.depositEscrow{value: 1 ether}(opportunityId);
+
+// 3. Accept match when developer swipes
+bora.acceptMatch(opportunityId, developerAddress);
+
+// 4. Complete job and release payment
+bora.completeJob(matchId, 50); // +50 reputation points
+```
+
+## 🔧 Deployment
+
+### Deploy to Sepolia Testnet
 ```bash
-# Connect repo with Vercel
-vercel
+# Create .env file
+cp .env.example .env
+# Edit .env with your keys
 
-# Configure environment variables in Vercel Dashboard
+# Source environment variables
+source .env
+
 # Deploy
-vercel --prod
+forge script script/Bora.s.sol:DeployBora \
+    --rpc-url $SEPOLIA_RPC_URL \
+    --broadcast \
+    --verify \
+    --etherscan-api-key $ETHERSCAN_API_KEY \
+    -vvvv
 ```
 
-### Smart Contract (Base Sepolia)
-
+### Deploy to Base Sepolia
 ```bash
-# Make sure you have ETH on Base Sepolia
-# Faucet: https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet
-
-forge script script/Deploy.s.sol:DeployBora \
-  --rpc-url https://sepolia.base.org \
-  --private-key $PRIVATE_KEY \
-  --broadcast \
-  --verify
+forge script script/Bora.s.sol:DeployBora \
+    --rpc-url $BASE_SEPOLIA_RPC_URL \
+    --broadcast \
+    --verify \
+    --etherscan-api-key $BASESCAN_API_KEY \
+    -vvvv
 ```
 
----
+## 🧪 Test Coverage
+```bash
+forge coverage --report summary
+```
 
-## 🛣️ Roadmap
+Current coverage: ~85%
 
-### ✅ Phase 1 - MVP (Current)
-- Developer profiles
-- Swipe on opportunities
-- Match system
-- Basic reputation
+## 📊 Gas Optimization
 
-### 🚧 Phase 2 - Q1 2026
-- Integrated chat
-- Escrow system for payments
-- Achievement NFT badges
-- Advanced filters
+The contract implements several gas optimization techniques:
+- Efficient struct packing
+- Minimal storage operations
+- Event-driven architecture
+- Batch operations where possible
 
-### 🔮 Phase 3 - Q2 2026
-- AI matching algorithm
-- GitHub integration
-- Mainnet launch
-- Governance token
+## 🔐 Security Features
 
----
+- ✅ Reentrancy guards on critical functions
+- ✅ Access control modifiers
+- ✅ Pausable functionality
+- ✅ Input validation
+- ✅ Safe math (Solidity 0.8.24+)
+- ✅ Checks-Effects-Interactions pattern
+
+## 🗺️ Roadmap
+
+- [ ] Multi-signature escrow releases
+- [ ] Dispute resolution system
+- [ ] NFT achievement system
+- [ ] Integration with ENS
+- [ ] Cross-chain deployment
+- [ ] Frontend DApp interface
 
 ## 🤝 Contributing
 
-Contributions are welcome! 
+Contributions are welcome! Please follow these steps:
 
-1. Fork the project
+1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
-
-## 👥 Team
-
-**CryptoRhinoo** - Founder & Lead Developer  
-📧 Email: cryptorhinoo@bora.app  
-🐦 Twitter: [@CryptoRhinoo](https://twitter.com/CryptoRhinoo)
-
----
-
 ## 📄 License
 
-This project is under the MIT License - see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## 👥 Authors
+
+- **CryptoRhinoo** - *Initial work*
 
 ## 🙏 Acknowledgments
 
-- Base Team for the infrastructure
-- Coinbase for Smart Wallet SDK
-- Colombian Web3 developer community 🇨🇴
+- Built with [Foundry](https://getfoundry.sh/)
+- Inspired by Tinder's matching system
+- Community feedback and contributions
+
+## 📞 Contact
+
+- Twitter: [@YourTwitter](https://twitter.com/yourhandle)
+- Discord: Your Discord Server
+- Email: your@email.com
 
 ---
 
-## 📞 Support
-
-Have questions? 
-
-- 💬 [Discord Community](https://discord.gg/bora)
-- 📧 Email: support@bora.app
-- 🐛 [Report Bug](https://github.com/CryptoRhinoo/Bora/issues)
-
----
-
-**Made with ❤️ in Colombia 🇨🇴 for the global Web3 community**
-
-*BORA - Building Opportunities, Rewarding Achievement*
+Made with ❤️ for the Web3 community
