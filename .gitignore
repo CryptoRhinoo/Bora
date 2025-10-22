@@ -67,3 +67,20 @@ coverage.json
 *.swp
 *.swo
 *~
+# Foundry
+cache/
+out/
+broadcast/
+
+# Dotenv file
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
